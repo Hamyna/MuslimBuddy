@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+    <!--
+  * Please see the included README.md file for license terms and conditions.
+  -->
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="media_button_bar/css/media_button_bar.css">
+        <link rel="stylesheet" type="text/css" href="galleria/galleria.classic.css">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="app_framework/2.1/css/af.ui.min.css">
+        <link rel="stylesheet" type="text/css" href="app_framework/2.1/css/icons.min.css">
+        <title>Muslim Buddy App</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+        <!--
+  * The "meta viewport" tag (below) helps your app size appropriately to a device's screen.
+  * Note that the meta viewport approach is being phased out in favor of the @viewport CSS rule.
+  * For a quick overview of both, see this article:
+  *   http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-dont-forget-the-viewport-meta-tag
+  * To see what happens, try the app on a real device with and without a "meta viewport" tag.
+-->
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=2"> -->
+        <style>
+            /* following three (cascaded) are equivalent to above three meta viewport statements */
+            /* see http://www.quirksmode.org/blog/archives/2014/05/html5_dev_conf.html */
+            /* see http://dev.w3.org/csswg/css-device-adapt/ */
+                @-ms-viewport { width: 100vw ; zoom: 100% ; }                           @viewport { width: 100vw ; zoom: 100% ; }
+                @-ms-viewport { user-zoom: fixed ; }                                    @viewport { user-zoom: fixed ; }
+                /*@-ms-viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }   @viewport { user-zoom: zoom ; min-zoom: 100% ; max-zoom: 200% ; }*/
+        </style>
+
+        <link rel="stylesheet" href="css/old-android.css">
+        <link rel="stylesheet" type="text/css" href="css/index_main.less.css" class="main-less">
+
+        <!-- IMPORTANT: Do not include your weinre script tag as part of your release builds! -->
+        <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work below -->
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+
+        <!-- Most third-party libraries should go here. References (below) are just examples to give you the general idea... -->
+        <!-- <script src="lib/ft/fastclick.js"></script> -->
+
+        <script src="intelxdk.js"></script>
+        <!-- phantom library, needed for XDK "legacy" container api calls -->
+        <script src="cordova.js"></script>
+        <!-- phantom library, needed for Cordova api calls -->
+        <script src="xhr.js"></script>
+        <!-- phantom library, needed for XDK "legacy" container CORS -->
+
+        <script src="js/app.js"></script>
+        <script src="js/init-app.js"></script>
+        <script src="js/init-dev.js"></script>
+        <!--                        
+                        You may substitute jQuery for the App Framework selector library.
+                        See http://app-framework-software.intel.com/documentation.php#afui/afui_jquery
+                -->
+        <script type="application/javascript" src="app_framework/2.1/appframework.js"></script>
+        <script type="application/javascript" src="app_framework/2.1/appframework.ui.js" data-ver="1"></script>
+        <!--            
+            You may substitute jQuery for the App Framework selector library.
+            See http://app-framework-software.intel.com/documentation.php#afui/afui_jquery
+        -->
+        <script type="application/javascript" src="js/jquery.min.js"></script>
+        <script type="application/javascript" src="sidebar/js/jquery.event.move.js"></script>
+        <script type="application/javascript" src="sidebar/js/jquery.event.swipe.js"></script>
+        <script type="application/javascript" src="sidebar/js/sidebar.js"></script>
+        <script type="application/javascript" src="sidebar/js/swipe.js"></script>
+        <script type="application/javascript" src="js/index_user_scripts.js"></script>
+        <script type="application/javascript" src="js/af_subpage.js"></script>
+        <!--            
+            You may substitute jQuery for the App Framework selector library.
+            See http://app-framework-software.intel.com/documentation.php#afui/afui_jquery
+        -->
+        <script type="application/javascript" src="admob/admob.js"></script>
+        <script type="application/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+        <!--            
+            You may substitute jQuery for the App Framework selector library.
+            See http://app-framework-software.intel.com/documentation.php#afui/afui_jquery
+        -->
+        <script type="application/javascript" src="google_maps/google_maps.js"></script>
+        <script type="application/javascript" src="galleria/galleria-1.3.6.min.js"></script>
+        <script type="application/javascript" src="galleria/galleria.classic.min.js"></script>
+        <script type="application/javascript" src="galleria/galleria-startup.js"></script>
+        <!--            
+            You may substitute jQuery for the App Framework selector library.
+            See http://app-framework-software.intel.com/documentation.php#afui/afui_jquery
+        -->
+        <script type="application/javascript" src="justgage/js/raphael.min.js"></script>
+        <script type="application/javascript" src="justgage/js/justgage.min.js"></script>
+        <script type="application/javascript" src="justgage/gauges.js"></script>
+    </head>
+
+    <body id="afui">
+
+        <!-- IMPORTANT: Do not include your weinre script tag as part of your release builds! -->
+        <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+
+        <div class="uwrap" id="content">
+            <div class="upage panel" id="mainpage" data-header="af-header-0" data-footer="none">
+                <div class="upage-outer">
+                    <header class="container-group inner-element uib_w_1" data-uib="app_framework/header" data-ver="1" id="af-header-0">
+                        <h1>Muslim Buddy</h1>
+                        <div class="widget-container wrapping-col single-centered"></div>
+                        <div class="widget-container content-area horiz-area wrapping-col left">
+                            <a class="button widget uib_w_9 d-margins icon home" data-uib="app_framework/button" data-ver="1" id="sidemenu_button"></a>
+                        </div>
+                        <div class="widget-container content-area horiz-area wrapping-col right"></div>
+                    </header>
+                    <div class="upage-content" id="mainsub">
+                        <div class="grid grid-pad urow uib_row_1 row-height-1" data-uib="layout/row" data-ver="0">
+                            <div class="col uib_col_1 col-0_12-12" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col center">
+                                    <div class="widget uib_w_2 d-margins" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p>Muslim Buddy</p>
+                                        </div>
+                                    </div>
+                                    <a class="button widget uib_w_14 icon user" data-uib="app_framework/button" data-ver="1" style="border-left-width: 1px; border-left-style: solid; border-left-color: rgb(102, 102, 102); border-top-left-radius: 6px; border-bottom-left-radius: 6px;" id="sign_in">Sign In </a>
+                                    <div class="button-grouped flex widget uib_w_13 d-margins" data-uib="app_framework/button_group" data-ver="1">
+                                        <a class="button widget uib_w_15 icon user" data-uib="app_framework/button" data-ver="1" id="btn_gmail_sign_in">Gmail</a><a class="button widget uib_w_16 icon user" data-uib="app_framework/button" data-ver="1" style="border-top-right-radius: 6px; border-bottom-right-radius: 6px;"
+                                        id="btn_fb_sign_in">Facebook</a>
+                                    </div><span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <span class="uib_shim"></span>
+                        </div>
+                    </div>
+                    <div id="buddyChat_page" class="upage-content hidden">
+
+                        <div class="grid grid-pad urow uib_row_17 row-height-17" data-uib="layout/row" data-ver="0">
+                            <div class="col uib_col_18 col-0_12-12" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+
+                                    <ul class="list widget uib_w_58 d-margins" data-uib="app_framework/listview" data-ver="1">
+                                        <li class="widget uib_w_59" data-uib="app_framework/listitem" data-ver="1"><a class="icon chat">Mrs Muslim Buddy</a>
+                                        </li>
+                                        <li class="widget uib_w_60" data-uib="app_framework/listitem" data-ver="1"><a class="icon chat">Mrs Muslim Supervisor</a>
+                                        </li>
+                                        <li class="widget uib_w_61" data-uib="app_framework/listitem" data-ver="1"><a class="icon chat">Mrs Imaan-buddy</a>
+                                        </li>
+                                    </ul><span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <span class="uib_shim"></span>
+                        </div>
+                    </div>
+                    <div id="quran_meter" class="upage-content hidden">
+
+                        <div class="grid grid-pad urow uib_row_15 row-height-15" data-uib="layout/row" data-ver="0">
+                            <div class="col uib_col_16 col-0_12-12" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+
+                                    <div class="widget uib_w_57 scale-image d-margins" data-uib="media/img" data-ver="0">
+                                        <figure class="figure-align">
+                                            <img src="images/quranRecitation.png">
+                                        </figure>
+                                    </div><span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <span class="uib_shim"></span>
+                        </div>
+                    </div>
+                    <div id="weekly_salat_graph" class="upage-content hidden">
+
+                        <div class="grid grid-pad urow uib_row_14 row-height-14" data-uib="layout/row" data-ver="0">
+                            <div class="col uib_col_15 col-0_12-12" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+
+                                    <div class="widget uib_w_53 d-margins" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p>Weekly Salat Meter</p>
+                                        </div>
+                                    </div>
+                                    <div class="widget uib_w_52 scale-image d-margins" data-uib="media/img" data-ver="0">
+                                        <figure class="figure-align">
+                                            <img src="images/weeklySalatChart.png">
+
+                                            <figcaption data-position="bottom"></figcaption>
+                                        </figure>
+                                    </div><span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <span class="uib_shim"></span>
+                        </div>
+                    </div>
+                    <div id="ilmBase_page" class="upage-content hidden">
+
+                        <div class="grid grid-pad urow uib_row_12 row-height-12" data-uib="layout/row" data-ver="0">
+
+                            <div class="col uib_col_13 col-0" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+                                    <div class="embed-video widget uib_w_46 d-margins" data-uib="media/youtube" data-ver="0">
+                                        <iframe src="http://www.youtube.com/embed/mQbMlI7SK8U?loop=1&amp;wmode=transparent">
+                                        </iframe>
+                                    </div>
+                                    <a class="uib-graphic-button default-graphic-sizing default-image-sizing hover-graphic-button default-graphic-button default-graphic-text widget uib_w_48 d-margins media-button-text-bottom" data-uib="media/graphic_button" data-ver="0" href="http://www.ilmstream.com/">
+                                        <img src="images/halal-tube.jpg">
+                                        <span class="uib-caption">Ilm Stream</span>
+                                    </a>
+                                    <a class="uib-graphic-button default-graphic-sizing default-image-sizing hover-graphic-button active-graphic-button default-graphic-button default-graphic-text widget uib_w_49 d-margins media-button-text-bottom" data-uib="media/graphic_button" data-ver="0"
+                                    href="http://www.halaltube.com/">
+                                        <img src="images/halal-tube.jpg">
+                                        <span class="uib-caption">Halal Tube</span>
+                                    </a>
+                                    <a class="uib-graphic-button default-graphic-sizing default-image-sizing hover-graphic-button active-graphic-button default-graphic-button default-graphic-text widget uib_w_50 d-margins media-button-text-bottom" data-uib="media/graphic_button" data-ver="0">
+                                        <img src="images/Checkmark.png">
+                                        <span class="uib-caption">Add Ilm Source</span>
+                                    </a><span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <span class="uib_shim"></span>
+                        </div>
+                    </div>
+                    <div id="salat_linkPage" class="upage-content hidden">
+
+                        <div class="grid grid-pad urow uib_row_10 row-height-10" data-uib="layout/row" data-ver="0">
+                            <div class="col uib_col_10 col-0_12-12" data-uib="layout/col" data-ver="0">
+
+                                <div class="widget-container content-area vertical-col">
+
+                                    <div class="table-thing with-label widget uib_w_34 d-margins" data-uib="app_framework/select" data-ver="1">
+                                        <label class="narrow-control label-inline" for="select_salatType">Salat Type</label>
+
+                                        <select class="wide-control" id="select_salatType">
+                                            <option>Fard Prayer</option>
+                                            <option>Nawafil Prayer</option>
+                                            <option>Sunnan Prayer</option>
+                                        </select>
+                                    </div>
+                                    <div class="table-thing with-label widget uib_w_37 d-margins" data-uib="app_framework/select" data-ver="1">
+                                        <label class="narrow-control label-inline">Fard</label>
+                                        <select class="wide-control">
+                                            <option>Fajr</option>
+                                            <option>Zuhr</option>
+                                            <option>Asr</option>
+                                            <option>Magrib</option>
+                                            <option>Isha</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="table-thing with-label widget uib_w_38 d-margins" data-uib="app_framework/checkbox_group" data-ver="1" id="cb_status">
+                                        <label class="narrow-control label-inline">Status</label>
+                                        <div class="wide-control">
+                                            <div class="widget uib_w_39" data-uib="app_framework/checkbox" data-ver="1">
+                                                <input type="checkbox" id="af-checkbox-0">
+                                                <label class="content-box" for="af-checkbox-0">Prayed Early</label>
+                                            </div>
+                                            <div class="widget uib_w_40" data-uib="app_framework/checkbox" data-ver="1">
+                                                <input type="checkbox" id="af-checkbox-1">
+                                                <label class="content-box" for="af-checkbox-1">Prayed Late</label>
+                                            </div>
+                                            <div class="widget uib_w_41" data-uib="app_framework/checkbox" data-ver="1">
+                                                <input type="checkbox" id="af-checkbox-2">
+                                                <label class="content-box" for="af-checkbox-2">Missed Prayer</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="widget uib_w_42 scale-image d-margins" data-uib="media/img" data-ver="0">
+                                        <figure class="figure-align">
+                                            <img src="images/dailySalatMeter.png">
+
+                                            <figcaption data-position="bottom"></figcaption>
+                                        </figure>
+                                    </div><a class="button widget uib_w_56 d-margins icon graph" data-uib="app_framework/button" data-ver="1" id="btn_weeklySalat">Weeky Salat Chart</a>
+
+                                    <span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <span class="uib_shim"></span>
+                        </div>
+                    </div>
+                    <div id="IOM_page" class="upage-content hidden">
+
+                        <div class="grid grid-pad urow uib_row_9 cright" data-uib="layout/row" data-ver="0">
+                            <div class="col uib_col_9 col-0_12-12" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+
+                                    <ul class="list widget uib_w_24 d-margins" data-uib="app_framework/listview" data-ver="1">
+                                        <li class="widget uib_w_25" data-uib="app_framework/listitem" data-ver="1" id="li_salat"><a class="icon graph">Salat</a>
+                                        </li>
+                                        <li class="widget uib_w_26" data-uib="app_framework/listitem" data-ver="1"><a class="icon graph">Dhikr</a>
+                                        </li>
+                                        <li class="widget uib_w_27" data-uib="app_framework/listitem" data-ver="1" id="btn_quranRecitaition"><a class="icon graph">Quran Recitation</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="list widget uib_w_28 d-margins" data-uib="app_framework/listview" data-ver="1">
+                                        <li class="widget uib_w_29" data-uib="app_framework/listitem" data-ver="1"><a class="icon graph">Charity</a>
+                                        </li>
+                                        <li class="widget uib_w_30" data-uib="app_framework/listitem" data-ver="1"><a class="icon graph">Fasting</a>
+                                        </li>
+                                        <li class="widget uib_w_31" data-uib="app_framework/listitem" data-ver="1"><a class="icon graph"> Add New Category</a>
+                                        </li>
+                                    </ul><span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <span class="uib_shim"></span>
+                        </div>
+                    </div>
+
+                    <div id="profile_page" class="upage-content hidden">
+                        <div class="grid grid-pad urow uib_row_5 row-height-5" data-uib="layout/row" data-ver="0">
+                            <div class="col uib_col_5 col-0_12-12" data-uib="layout/col" data-ver="0">
+                                <div class="widget-container content-area vertical-col">
+
+                                    <div class="widget uib_w_17 scale-image d-margins" data-uib="media/img" data-ver="0">
+                                        <figure class="figure-align">
+                                            <img src="images/profile_img.png" id="img_profile_img">
+
+                                            <figcaption data-position="bottom"></figcaption>
+                                        </figure>
+                                    </div>
+                                    <div class="table-thing with-label widget uib_w_18 d-margins" data-uib="app_framework/textarea" data-ver="1">
+                                        <label class="narrow-control label-inline" for="ta_name">Name</label>
+                                        <textarea class="wide-control" rows="1" wrap="soft" placeholder="Mrs Muslim" id="ta_name"></textarea>
+                                    </div>
+
+                                    <div class="table-thing with-label widget uib_w_19 d-margins" data-uib="app_framework/textarea" data-ver="1">
+                                        <label class="narrow-control label-inline">Email</label>
+                                        <textarea class="wide-control" placeholder="mrs.muslim@gmail.com" rows="1" wrap="soft"></textarea>
+                                    </div>
+                                    <div class="table-thing with-label widget uib_w_20 d-margins" data-uib="app_framework/textarea" data-ver="1">
+                                        <label class="narrow-control label-inline" for="ta_loca">Location</label>
+                                        <textarea class="wide-control" placeholder="Victoria, BC. Canada" rows="1" wrap="soft" id="ta_loca"></textarea>
+                                    </div>
+                                    <div class="widget uib_w_22 d-margins" data-uib="media/text" data-ver="0">
+                                        <div class="widget-container left-receptacle"></div>
+                                        <div class="widget-container right-receptacle"></div>
+                                        <div>
+                                            <p>Friend List</p>
+                                        </div>
+                                    </div>
+                                    <div class="galleria image-gallery-size widget uib_w_62 d-margins" data-uib="media/image_gallery" data-ver="0" data-sm-trigger="true" images-json="gallery_images/gallery_images.json">
+                                    </div>
+
+                                    <span class="uib_shim"></span>
+                                </div>
+                            </div>
+                            <span class="uib_shim"></span>
+                        </div>
+                    </div>
+
+                    <!-- /upage-content -->
+
+                    <div class="inner-element uib_w_3 uib_sidebar leftbar bar-bg thumb-bg bar-gutter" data-uib="layout/left_sidebar" data-ver="0" data-anim="{'style':'push', 'v':200, 'side':'left'}" id="sidemenu">
+                        <div class="sidebar-content">
+
+                            <div class="grid urow uib_row_2 row-height-2" data-uib="layout/row" data-ver="0">
+                                <div class="col uib_col_2 col-0_12-12" data-uib="layout/col" data-ver="0">
+                                    <div class="widget-container content-area vertical-col">
+
+                                        <ul class="list widget uib_w_4 d-margins" data-uib="app_framework/listview" data-ver="1">
+                                            <li class="widget uib_w_5" data-uib="app_framework/listitem" data-ver="1" id="mb_page"><a class="icon home">Muslim Buddy</a>
+                                            </li>
+                                            <li class="widget uib_w_6" data-uib="app_framework/listitem" data-ver="1" id="profile_page"><a class="icon user">Profile</a>
+                                            </li>
+                                            <li class="widget uib_w_7" data-uib="app_framework/listitem" data-ver="1" id="chat_page"><a class="icon chat">Chat</a>
+                                            </li>
+                                            <li class="widget uib_w_8" data-uib="app_framework/listitem" data-ver="1" id="iom_page"><a class="icon graph">Imaan-O-Meter</a>
+                                            </li>
+                                            <li class="widget uib_w_8" data-uib="app_framework/listitem" data-ver="1" id="ib_page"><a class="icon star">Ilm Base</a>
+                                            </li>
+                                        </ul>
+
+                                        <span class="uib_shim"></span>
+                                    </div>
+                                </div>
+                                <span class="uib_shim"></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /upage-outer -->
+
+            </div>
+            <!-- /upage -->
+
+        </div>
+        <!-- /uwrap -->
+    </body>
+
+</html>
